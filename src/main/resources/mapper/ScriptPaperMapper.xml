@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.bbsMapper">
+	
+	<select id="selectBbsList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	    SELECT * FROM bbs
+	    <if test="keyword != null and keyword != ''">
+			WHERE bbsTitle LIKE CONCAT('%', #{keyword}, '%')
+	  	</if>
+	  	ORDER BY bbsNo DESC
+	</select>
+	
+	<select id="selectBbs" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	    SELECT * FROM bbs WHERE bbsNo = #{bbsNo}
+	</select>
+	
+	<update id="updateBbsView" parameterType="java.util.HashMap">
+	    UPDATE bbs SET views = views+1 WHERE bbsNo = #{bbsNo}
+	</update>
+	
+	<insert id="insertBbs" parameterType="java.util.HashMap">
+	    INSERT INTO bbs (bbsTitle, bbsContents, userName) VALUES (#{bbsTitle}, #{bbsContents}, #{userName})
+	</insert>
+	
+	<update id="updateBbs" parameterType="java.util.HashMap">
+	    UPDATE 
+	    	bbs 
+	    SET 
+	    	bbsTitle = #{bbsTitle}
+	    	, bbsContents = #{bbsContents} 
+	    	, userName = #{userName}
+	    WHERE 
+	    	bbsNo = #{bbsNo}
+	</update>
+	
+	<delete id="deleteBbs" parameterType="java.util.HashMap">
+	    DELETE FROM bbs WHERE bbsNo = #{bbsNo}
+	</delete>
+</mapper>
